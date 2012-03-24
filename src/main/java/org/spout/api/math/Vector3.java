@@ -153,6 +153,18 @@ public class Vector3 implements Comparable<Vector3> {
 		return getZ();
 	}
 
+	public Vector3 replaceX(float x) {
+		return new Vector3(x, y, z);
+	}
+
+	public Vector3 replaceY(float y) {
+		return new Vector3(x, y, z);
+	}
+
+	public Vector3 replaceZ(float z) {
+		return new Vector3(x, y, z);
+	}
+
 	/**
 	 * Adds this Vector3 to the value of the Vector3 argument
 	 * 
