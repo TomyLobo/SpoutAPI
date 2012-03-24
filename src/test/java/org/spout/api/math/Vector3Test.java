@@ -222,7 +222,7 @@ public class Vector3Test {
 		Vector3 x = new Vector3(3, 5, 6);
 		Vector2 y = new Vector2(3, 6);
 
-		assertTrue(x.toVector2().equals(y));
+		assertTrue(x.dropY().equals(y));
 	}
 
 

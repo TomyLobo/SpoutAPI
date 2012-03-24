@@ -408,14 +408,34 @@ public class Vector3 implements Comparable<Vector3> {
 	}
 
 	/**
+	 * Returns a Vector2 object using the Y and Z values of this Vector3. The y
+	 * of this Vector3 becomes the x of the Vector2, and the z of this Vector3
+	 * becomes the y of the Vector2.
+	 * 
+	 * @return
+	 */
+	public Vector2 dropX() {
+		return new Vector2(this.y, this.z);
+	}
+
+	/**
 	 * Returns a Vector2 object using the X and Z values of this Vector3. The x
 	 * of this Vector3 becomes the x of the Vector2, and the z of this Vector3
 	 * becomes the y of the Vector2.
 	 * 
 	 * @return
 	 */
-	public Vector2 toVector2() {
-		return Vector3.toVector2(this);
+	public Vector2 dropY() {
+		return new Vector2(this.x, this.z);
+	}
+
+	/**
+	 * Returns a Vector2 object using the X and Y values of this Vector3.
+	 * 
+	 * @return
+	 */
+	public Vector2 dropZ() {
+		return new Vector2(this.x, this.y);
 	}
 
 	/**
@@ -792,7 +812,7 @@ public class Vector3 implements Comparable<Vector3> {
 	 * @return
 	 */
 	public static double distance(Vector3 a, Vector3 b) {
-		double xzDist = Vector2.distance(a.toVector2(), b.toVector2());
+		double xzDist = Vector2.distance(a.dropY(), b.dropY());
 		return Math.sqrt(Math.pow(xzDist, 2) + Math.pow(Math.abs(Vector3.subtract(a, b).y), 2));
 	}
 
@@ -815,7 +835,7 @@ public class Vector3 implements Comparable<Vector3> {
 	 * @param o Vector3 object to use
 	 * @return
 	 */
-	public static Vector2 toVector2(Vector3 o) {
+	public static Vector2 dropY(Vector3 o) {
 		return new Vector2(o.x, o.z);
 	}
 
