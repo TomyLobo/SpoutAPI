@@ -364,23 +364,46 @@ public class Vector2 implements Comparable<Vector2>{
 	}
 
 	/**
-	 * Returns a Vector3 object with a y-value of 0. The x of this Vector2
-	 * becomes the x of the Vector3, the y of this Vector2 becomes the z of the
-	 * Vector3.
-	 *
-	 * @return
-	 */
-	public Vector3 toVector3() {
-		return Vector2.toVector3(this);
-	}
-
-	/**
 	 * Returns a Vector2Polar object with the same value as this Vector2
 	 *
 	 * @return
 	 */
 	public Vector2Polar toVector2Polar() {
 		return new Vector2Polar(length(), Math.atan2(y, x));
+	}
+
+	/**
+	 * Returns a Vector3 object with a y-value of 0. The x of this Vector2
+	 * becomes the y of the Vector3, the y of this Vector2 becomes the z of the
+	 * Vector3.
+	 *
+	 * @return
+	 */
+	public Vector3 insertX() {
+		return insertX(0);
+	}
+
+	/**
+	 * Returns a Vector3 object with the given y value. The x of this Vector2
+	 * becomes the y of the Vector3, the y of this Vector2 becomes the z of the
+	 * Vector3.
+	 *
+	 * @param x X value to use in the new Vector3.
+	 * @return
+	 */
+	public Vector3 insertX(float x) {
+		return new Vector3(x, this.x, this.y);
+	}
+
+	/**
+	 * Returns a Vector3 object with a y-value of 0. The x of this Vector2
+	 * becomes the x of the Vector3, the y of this Vector2 becomes the z of the
+	 * Vector3.
+	 *
+	 * @return
+	 */
+	public Vector3 insertY() {
+		return insertY(0);
 	}
 
 	/**
@@ -391,8 +414,27 @@ public class Vector2 implements Comparable<Vector2>{
 	 * @param y Y value to use in the new Vector3.
 	 * @return
 	 */
-	public Vector3 toVector3(float y) {
-		return Vector2.toVector3(this, y);
+	public Vector3 insertY(float y) {
+		return new Vector3(this.x, y, this.y);
+	}
+
+	/**
+	 * Returns a Vector3 object with a z-value of 0.
+	 *
+	 * @return
+	 */
+	public Vector3 insertZ() {
+		return insertZ(0);
+	}
+
+	/**
+	 * Returns a Vector3 object with the given z value.
+	 *
+	 * @param z Z value to use in the new Vector3.
+	 * @return
+	 */
+	public Vector3 insertZ(float z) {
+		return new Vector3(this.x, this.y, z);
 	}
 
 	/**
@@ -635,18 +677,6 @@ public class Vector2 implements Comparable<Vector2>{
 	}
 
 	/**
-	 * Returns a Vector3 object with a y-value of 0. The x of the Vector2
-	 * becomes the x of the Vector3, the y of the Vector2 becomes the z of the
-	 * Vector3.
-	 *
-	 * @param o Vector2 to use as the x/z values
-	 * @return
-	 */
-	public static Vector3 toVector3(Vector2 o) {
-		return new Vector3(o.getX(), 0, o.getY());
-	}
-
-	/**
 	 * Returns a Vector2Polar object with the same value as the given Vector2
 	 *
 	 * @param o Vector2 to use
@@ -654,19 +684,6 @@ public class Vector2 implements Comparable<Vector2>{
 	 */
 	public static Vector2Polar toVector2Polar(Vector2 o) {
 		return new Vector2Polar(o.length(), Math.atan2(o.getY(), o.getX()));
-	}
-
-	/**
-	 * Returns a Vector3 object with the given y-value. The x of the Vector2
-	 * becomes the x of the Vector3, the y of the Vector2 becomes the z of the
-	 * Vector3.
-	 *
-	 * @param o Vector2 to use as the x/z values
-	 * @param y Y value of the new Vector3
-	 * @return
-	 */
-	public static Vector3 toVector3(Vector2 o, float y) {
-		return new Vector3(o.getX(), y, o.getY());
 	}
 
 	/**

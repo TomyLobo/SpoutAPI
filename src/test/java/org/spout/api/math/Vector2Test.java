@@ -226,8 +226,8 @@ public class Vector2Test {
 		Vector3 y = new Vector3(3, 0, 5);
 		Vector3 y2 = new Vector3(3, 6, 5);
 
-		assertTrue(x.toVector3().equals(y));
-		assertTrue(x.toVector3(6).equals(y2));
+		assertTrue(x.insertY().equals(y));
+		assertTrue(x.insertY(6).equals(y2));
 	}
 
 
