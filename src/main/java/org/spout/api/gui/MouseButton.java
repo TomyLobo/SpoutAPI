@@ -38,6 +38,7 @@ public class MouseButton {
 	public static final MouseButton MIDDLE_BUTTON = new MouseButton(2, "Middle");
 
 	public static MouseButton getButtonById(int id) {
+		// FIXME: buttonsById is uninitialized.
 		MouseButton button = buttonsById.get(id);
 		if (button == null) {
 			button = new MouseButton(id, "Unknown "+id);

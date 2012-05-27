@@ -74,6 +74,15 @@ public class SimpleFuture<T> implements Future<T> {
 		synchronized (waiting) {
 			waiting.incrementAndGet();
 			try {
+				/*
+				 * Bug: Wait not in loop in
+				 * org.spout.api.util.future.SimpleFuture.waitForMonitor()
+				 * 
+				 * This method contains a call to java.lang.Object.wait() which
+				 * is not in a loop. If the monitor is used for multiple
+				 * conditions, the condition the caller intended to wait for
+				 * might not be the one that actually occurred.
+				 */
 				waiting.wait();
 			} finally {
 				waiting.decrementAndGet();
@@ -167,9 +176,44 @@ public class SimpleFuture<T> implements Future<T> {
 
 			while (endTime > currentTime) {
 				if (!done.getAndSet(false)) {
+					/*
+					 * Bug: Synchronization performed on
+					 * java.util.concurrent.atomic.AtomicInteger in
+					 * org.spout.api.util.future.SimpleFuture.get(long,
+					 * TimeUnit)
+					 * 
+					 * This method performs synchronization an object that is an
+					 * instance of a class from the java.util.concurrent package
+					 * (or its subclasses). Instances of these classes have
+					 * their own concurrency control mechanisms that are
+					 * orthogonal to the synchronization provided by the Java
+					 * keyword synchronized. For example, synchronizing on an
+					 * AtomicBoolean will not prevent other threads from
+					 * modifying the AtomicBoolean.
+					 * 
+					 * Such code may be correct, but should be carefully
+					 * reviewed and documented, and may confuse people who have
+					 * to maintain the code at a later date.
+					 * 
+					 * Dito for other instances of "synchronized (waiting)".
+					 */
 					synchronized (waiting) {
 						waiting.incrementAndGet();
 						try {
+							/*
+							 * Bug: Unconditional wait in
+							 * org.spout.api.util.future.SimpleFuture.get(long,
+							 * TimeUnit)
+							 * 
+							 * This method contains a call to
+							 * java.lang.Object.wait() which is not guarded by
+							 * conditional control flow. The code should verify
+							 * that condition it intends to wait for is not
+							 * already satisfied before calling wait; any
+							 * previous notifications will be ignored.
+							 * 
+							 * Dito for other instances of "waiting.wait()".
+							 */
 							waiting.wait();
 						} finally {
 							waiting.decrementAndGet();

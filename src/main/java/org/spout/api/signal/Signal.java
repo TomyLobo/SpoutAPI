@@ -51,6 +51,7 @@ public class Signal {
 	
 	public void emit(SignalInterface sender, Object ...arguments) {
 		synchronized (currentIterator) {
+			// FIXME: synchronizing on currentIterator guards the object, not the FIELD!
 			currentIterator = subscriptions.iterator();
 			while(currentIterator.hasNext()) {
 				Subscription p = currentIterator.next();
@@ -108,6 +109,7 @@ public class Signal {
 	
 	public void unsubscribe(Object receiver) {
 		synchronized (currentIterator) {
+			// FIXME: synchronizing on currentIterator guards the object, not the FIELD!
 			currentIterator = subscriptions.iterator();
 			while (currentIterator.hasNext()) {
 				Subscription next = currentIterator.next();

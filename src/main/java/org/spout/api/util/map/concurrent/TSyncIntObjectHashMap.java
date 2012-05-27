@@ -218,6 +218,7 @@ public class TSyncIntObjectHashMap<V> implements TSyncIntObjectMap<V> {
 
 	public int[] keys(int[] dest) {
 		for (int m = 0; m < mapCount; m++) {
+			// FIXME: If anything in here throws an exception, we're screwed
 			lockArray[m].readLock().lock();
 		}
 		try {
@@ -392,6 +393,7 @@ public class TSyncIntObjectHashMap<V> implements TSyncIntObjectMap<V> {
 	}
 
 	private int mapHash(int key) {
+		// FIXME: shifting an int by 32 is most likely wrong... I guess this is copypasted from TSyncLongObjectHashMap?
 		int intKey = (int) (key >> 32 ^ key);
 
 		return (0x7FFFFFFF & intKey) % hashScramble & mapMask;

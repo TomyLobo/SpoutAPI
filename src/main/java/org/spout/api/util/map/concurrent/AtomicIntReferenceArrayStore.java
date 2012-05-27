@@ -522,6 +522,16 @@ public final class AtomicIntReferenceArrayStore<T> {
 		try {
 			synchronized (this) {
 				try {
+					/*
+					 * Unconditional wait in org.spout.api.util.map.concurrent.
+					 * AtomicIntReferenceArrayStore.atomicWait()
+					 * 
+					 * This method contains a call to java.lang.Object.wait()
+					 * which is not guarded by conditional control flow. The
+					 * code should verify that condition it intends to wait for
+					 * is not already satisfied before calling wait; any
+					 * previous notifications will be ignored.
+					 */
 					wait();
 				} catch (InterruptedException e) {
 					return true;
@@ -539,6 +549,22 @@ public final class AtomicIntReferenceArrayStore<T> {
 	private final void atomicNotify() {
 		if (!waiting.compareAndSet(0, 0)) {
 			synchronized (this) {
+				/*
+				 * Bug: Naked notify in
+				 * org.spout.api.util.map.concurrent.AtomicIntReferenceArrayStore.atomicNotify()
+				 * 
+				 * A call to notify() or notifyAll() was made without any
+				 * (apparent) accompanying modification to mutable object state.
+				 * In general, calling a notify method on a monitor is done
+				 * because some condition another thread is waiting for has
+				 * become true. However, for the condition to be meaningful, it
+				 * must involve a heap object that is visible to both threads.
+				 * 
+				 * This bug does not necessarily indicate an error, since the
+				 * change to mutable object state may have taken place in a
+				 * method which then called the method containing the
+				 * notification.
+				 */
 				notifyAll();
 			}
 		}

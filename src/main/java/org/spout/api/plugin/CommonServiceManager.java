@@ -56,6 +56,7 @@ public class CommonServiceManager implements ServiceManager {
 	private static ServiceManager serviceManager;
 
 	public static ServiceManager getInstance() {
+		// FIXME: The initialization here isn't thread-safe! 
 		if (serviceManager == null) {
 			serviceManager = new CommonServiceManager();
 		}

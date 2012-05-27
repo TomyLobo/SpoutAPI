@@ -69,6 +69,7 @@ public class Ray extends CollisionVolume {
 
 	public boolean intersects(CollisionVolume other) {
 		if (other instanceof BoundingBox) {
+			// FIXME: This seems to be an infinite recursion. I don't know the code enough to replace it, though.
 			return intersects(other);
 		}
 		if (other instanceof BoundingSphere) {

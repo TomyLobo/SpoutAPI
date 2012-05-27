@@ -152,6 +152,24 @@ public class OptimisticReadWriteLock {
 		} finally {
 			if (!waiting.compareAndSet(0, 0)) {
 				synchronized (this) {
+					/*
+					 * Bug: Naked notify in
+					 * org.spout.api.util.concurrent.OptimisticReadWriteLock
+					 * .writeUnlock(int)
+					 * 
+					 * A call to notify() or notifyAll() was made without any
+					 * (apparent) accompanying modification to mutable object
+					 * state. In general, calling a notify method on a monitor
+					 * is done because some condition another thread is waiting
+					 * for has become true. However, for the condition to be
+					 * meaningful, it must involve a heap object that is visible
+					 * to both threads.
+					 * 
+					 * This bug does not necessarily indicate an error, since
+					 * the change to mutable object state may have taken place
+					 * in a method which then called the method containing the
+					 * notification.
+					 */
 					notifyAll();
 				}
 			}

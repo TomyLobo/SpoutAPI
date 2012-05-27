@@ -499,6 +499,22 @@ public class Inventory implements Serializable, Cloneable {
 	 */
 	@Override
 	public Inventory clone() {
+		/*
+		 * Bug: org.spout.api.inventory.Inventory.clone() does not call
+		 * super.clone()
+		 * 
+		 * This non-final class defines a clone() method that does not call
+		 * super.clone(). If this class ("A") is extended by a subclass ("B"),
+		 * and the subclass B calls super.clone(), then it is likely that B's
+		 * clone() method will return an object of type A, which violates the
+		 * standard contract for clone().
+		 * 
+		 * If all clone() methods call super.clone(), then they are guaranteed
+		 * to use Object.clone(), which always returns an object of the correct
+		 * type.
+		 * 
+		 * tl;dr: Call super.clone(), cast, copy properties, return
+		 */
 		Inventory inv = new Inventory(this.getClonedContents());
 		inv.hidden.addAll(this.hidden);
 		return inv;

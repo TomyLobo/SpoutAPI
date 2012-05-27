@@ -279,7 +279,22 @@ public class Point extends Vector3 {
 
 	@Override
 	public boolean equals(Object obj) {
-
+		/*
+		 * Bug: org.spout.api.geo.discrete.Point overrides equals in
+		 * org.spout.api.math.Vector3 and may not be symmetric
+		 * 
+		 * This class defines an equals method that overrides an equals method
+		 * in a superclass. Both equals methods methods use instanceof in the
+		 * determination of whether two objects are equal. This is fraught with
+		 * peril, since it is important that the equals method is symmetrical
+		 * (in other words, a.equals(b) == b.equals(a)). If B is a subtype of A,
+		 * and A's equals method checks that the argument is an instanceof A,
+		 * and B's equals method checks that the argument is an instanceof B, it
+		 * is quite likely that the equivalence relation defined by these
+		 * methods is not symmetric.
+		 * 
+		 * tl;dr: Make this thing work with Vector3 or things will break (tm)
+		 */
 		if (obj == null) {
 			return false;
 		} else if (!(obj instanceof Point)) {

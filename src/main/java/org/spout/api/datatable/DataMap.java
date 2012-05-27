@@ -198,6 +198,7 @@ public class DataMap implements DefaultedMap<String, Serializable>{
 		}
 
 		public void clear() {
+			// FIXME: This seems to be an infinite recursion. I don't know the code enough to replace it, though.
 			this.clear();
 		}
 	}

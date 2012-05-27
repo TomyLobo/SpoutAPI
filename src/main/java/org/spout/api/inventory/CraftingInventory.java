@@ -38,10 +38,12 @@ public class CraftingInventory extends Inventory {
 	}
 
 	public Set<String> getAllowedSubTypes() {
+		// FIXME: allowedSubTypes is never written.
 		return allowedSubTypes;
 	}
 
 	public CraftingInventory addAllowedSubType(String subType) {
+		// FIXME: This will always result in a NullPointerException being thrown, since the field is never initialized.
 		allowedSubTypes.add(subType);
 		return this;
 	}

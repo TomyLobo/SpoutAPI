@@ -217,6 +217,7 @@ public class TSyncLongObjectHashMap<V> implements TSyncLongObjectMap<V> {
 
 	public long[] keys(long[] dest) {
 		for (int m = 0; m < mapCount; m++) {
+			// FIXME: If anything in here throws an exception, we're screwed
 			lockArray[m].readLock().lock();
 		}
 		try {
@@ -360,6 +361,7 @@ public class TSyncLongObjectHashMap<V> implements TSyncLongObjectMap<V> {
 	@SuppressWarnings("unchecked")
 	public V[] values(V[] dest) {
 		for (int m = 0; m < mapCount; m++) {
+			// FIXME: If anything in here throws an exception, we're screwed
 			lockArray[m].readLock().lock();
 		}
 		try {
