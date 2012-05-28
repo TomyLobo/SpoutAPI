@@ -38,7 +38,6 @@ import org.spout.api.scheduler.TaskManager;
 import org.spout.api.util.thread.DelayedWrite;
 import org.spout.api.util.thread.LiveRead;
 import org.spout.api.util.thread.SnapshotRead;
-import org.spout.api.util.thread.Threadsafe;
 
 /**
  * Represents a cube containing 16x16x16 Chunks (256x256x256 Blocks)
